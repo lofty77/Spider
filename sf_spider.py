@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import TimeoutException
 
 from data_management import DataManagement, Data
 
@@ -39,6 +40,23 @@ class SfSpider:
 
         # Setup wait for later
         self.wait = WebDriverWait(self.driver, 10)
+
+    def __wait_until(self, mode, value):
+        try:
+            if(mode == "CLASS_NAME"):
+                self.wait.until(EC.presence_of_element_located(
+                    (By.CLASS_NAME, value)))
+            elif(mode == "XPATH"):
+                self.wait.until(EC.presence_of_element_located(
+                    (By.XPATH, value)))
+            else:
+                return False
+        except TimeoutException:
+            print("time out {0}".format(TimeoutException))
+            return False
+
+        else:
+            return True
 
     def __wait_and_click(self, mode, value, sleep_time):
         #  Sometimes click fails unreasonably. So tries to click at all cost.
@@ -152,10 +170,14 @@ class SfSpider:
         self.driver.switch_to.window(handles[1])
 
        # bid times
-        self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, "/html[1]/body[1]/div[3]/div[4]/div[1]/div[1]/h1[1]")))
-        self.data.set_data(Data.times.name, self.driver.find_element_by_xpath(
-            "/html[1]/body[1]/div[3]/div[4]/div[1]/div[1]/h1[1]").get_attribute('textContent'))
+        if self.__wait_until("XPATH", "/html[1]/body[1]/div[3]/div[4]/div[1]/div[1]/h1[1]"):
+            textContent = self.driver.find_element_by_xpath(
+                "/html[1]/body[1]/div[3]/div[4]/div[1]/div[1]/h1[1]").get_attribute('textContent')
+        else:
+            textContent = "error"
+
+        self.data.set_data(Data.times.name, textContent)
+
         # TODO: degfine new field
 
        # 变卖公告，竞买公告
@@ -174,10 +196,11 @@ class SfSpider:
 
             if self.data.get_data(Data.start.name) > 1486432800000:   # 2017-2-7
                 if self.__wait_and_click("LINK_TEXT", "竞价成功确认书", 0.5):
-                    self.wait.until(EC.presence_of_element_located(
-                        (By.CLASS_NAME, "content-wrap")))
-                    name = self.driver.find_element_by_class_name(
-                        "c-content").text
+                    if self.__wait_until("CLASS_NAME", "content-wrap"):
+                        name = self.driver.find_element_by_class_name(
+                            "c-content").text
+                    else:
+                        name = "用户姓名无名氏通过"
                 else:
                     name = "用户姓名无名氏通过"
             else:
