@@ -1,0 +1,17 @@
+language: python
+python:
+  - "3.6"      # current default Python on Travis CI
+# command to install dependencies
+install:
+  - pip install -r test/requirement.txt
+# command to run tests
+script:
+#  - python main.py 
+# - python test.py
+  - pytest  --cov=./test/
+after_success:
+#  public repo on Travis CI
+  - bash <(curl -s https://codecov.io/bash)
+
+# private repo
+# - bash <(curl -s https://codecov.io/bash) -t your-repository-upload-token
