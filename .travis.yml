@@ -6,9 +6,8 @@ install:
   - pip install -r test/requirement.txt
 # command to run tests
 script:
-#  - python main.py 
-# - python test.py
-  - pytest  --cov=./test/
+#  - python main.py
+  - pytest  --cov=./
 after_success:
 #  public repo on Travis CI
   - bash <(curl -s https://codecov.io/bash)
