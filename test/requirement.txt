@@ -2,12 +2,4 @@ pytest
 pytest-cov
 codecov
 nose
-datetime
-sys
-time
-csv
-re
-enum
-pandas
-json
-selenium
+
