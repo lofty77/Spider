@@ -4,9 +4,9 @@ import pytest
 
 import sys
 
-sys.path.append('../../')
+sys.path.append('../')
 
-from Spider.spider import url
+from spider import url
 
 
 def test_get_chinese_city():
