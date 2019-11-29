@@ -1,6 +1,8 @@
 import json
 import time
 import datetime
+import platform
+import os.path as osp
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -30,13 +32,31 @@ class SfSpider:
 
         self.data = DataManagement(file_name)
 
+        executable = ''
+
+        if platform.system() == 'Windows':
+            print('Detected OS : Windows')
+            executable = '../chromedriver/chromedriver_win.exe'
+        elif platform.system() == 'Linux':
+            print('Detected OS : Linux')
+            executable = '../chromedriver/chromedriver_linux'
+        elif platform.system() == 'Darwin':
+            print('Detected OS : Mac')
+            executable = '../chromedriver/chromedriver_mac'
+        else:
+            raise OSError('Unknown OS Type')
+
+        if not osp.exists(executable):
+            raise FileNotFoundError(
+                'Chromedriver file should be placed at {}'.format(executable))
+
         if(head_less):
             # set headless
             chrome_options = Options()
             chrome_options.add_argument('--headless')
             self.driver = webdriver.Chrome(options=chrome_options)
         else:
-            self.driver = webdriver.Chrome()
+            self.driver = webdriver.Chrome(executable)
 
         # Setup wait for later
         self.wait = WebDriverWait(self.driver, 10)

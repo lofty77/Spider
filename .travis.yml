@@ -9,7 +9,7 @@ script:
 #  - python main.py
 #  - cd test
 #  - python test_url.py
-  - pytest  --cov=./
+  - pytest  --cov=./  --driver Chrome --driver-path ./chromedriver/chromedriver_linux
 after_success:
 #  public repo on Travis CI
   - bash <(curl -s https://codecov.io/bash)
