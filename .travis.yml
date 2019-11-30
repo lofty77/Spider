@@ -12,7 +12,9 @@ script:
 #  - python main.py
 #  - cd test
 #  - python test_url.py
-  - pytest  --cov=./  --driver Chrome --driver-path ./chromedriver/chromedriver_linux
+#  - pytest  --cov=./  --driver Chrome --driver-path ./chromedriver/chromedriver_linux
+  - pytest  --cov=./
+
 
 after_success:
 #  public repo on Travis CI
