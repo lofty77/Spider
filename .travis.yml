@@ -21,11 +21,11 @@ cache: pip
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y curl jq
-  - sudo installation/chromedriver.sh latest
+  #- sudo installation/chromedriver.sh latest
 
 install:
   - pip install -r test/requirement.txt
-  - pip pip install tox
+  - pip install tox
 # command to run tests
 script:
 #  - python main.py
