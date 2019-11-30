@@ -27,4 +27,4 @@ def test_get_chinese_city():
 
 
 if __name__ == '__main__':
-    print(sys.path)
+    pass
