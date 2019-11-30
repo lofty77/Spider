@@ -3,36 +3,16 @@ python:
   - "3.6"      # current default Python on Travis CI
 # command to install dependencies
 
-jobs:
-    -
-      name: python 3.6
-      python: 3.6
-      env: TOXENV=py36
-
-sudo: required
-
-env:
-  global:
-  - PYTEST_ADDOPTS="-m 'not (edge or safari or phantomjs)'"
-  - GECKODRIVER_FALLBACK_VERSION="v0.24.0"
-
-cache: pip
-
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y curl jq
-#  sudo installation/chromedriver.sh latest
 
 install:
   - pip install -r test/requirement.txt
-  - pip install tox
+
 # command to run tests
 script:
 #  - python main.py
 #  - cd test
 #  - python test_url.py
-#  - pytest  --cov=./  --driver Chrome --driver-path ./chromedriver/chromedriver_linux
-  - tox
+  - pytest  --cov=./  --driver Chrome --driver-path ./chromedriver/chromedriver_linux
 
 after_success:
 #  public repo on Travis CI
@@ -41,6 +21,3 @@ after_success:
 # private repo
 # - bash <(curl -s https://codecov.io/bash) -t your-repository-upload-token
 
-addons:
-  firefox: latest
-  chrome: stable
