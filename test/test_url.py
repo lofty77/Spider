@@ -16,6 +16,12 @@ def test_get_chinese_city():
     assert_equal(city_chinese, "天津")
 
 
+
+def test_get_chinese_city_gbk():
+    city_chinese_gbk = url.get_chinese_city_gbk("tj")
+
+    assert_equal(city_chinese_gbk, "%CC%EC%BD%F2")
+
 # @pytest.fixture
 # def chrome_options(chrome_options):
 #     chrome_options.add_argument('--headless')
