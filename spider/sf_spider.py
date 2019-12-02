@@ -54,9 +54,10 @@ class SfSpider:
             # set headless
             chrome_options = Options()
             chrome_options.add_argument('--headless')
-            self.driver = webdriver.Chrome(options=chrome_options)
+            self.driver = webdriver.Chrome(
+                options=chrome_options, executable_path=executable)
         else:
-            self.driver = webdriver.Chrome(executable)
+            self.driver = webdriver.Chrome(executable_path=executable)
 
         # Setup wait for later
         self.wait = WebDriverWait(self.driver, 10)
