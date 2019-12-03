@@ -17,7 +17,7 @@ before_install:
 #  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
 install:
-  - pip install -r requirement.txt
+  - pip install -r test/requirement.txt
 
 before_script:
   - export PATH=$PATH:/tmp/chromedriver
