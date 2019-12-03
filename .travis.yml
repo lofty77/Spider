@@ -1,19 +1,32 @@
+sudo: required
+dist: trusty
+addons:
+  chrome: stable
+
 language: python
 python:
-  - "3.6"      # current default Python on Travis CI
-# command to install dependencies
+  - "3.6.3"      # current default Python on Travis CI
 
+
+before_install:
+  - echo $PATH
+  - mkdir /tmp/chromedriver
+  - wget https://chromedriver.storage.googleapis.com/78.0.3904.70/chromedriver_linux64.zip -O /tmp/chromedriver/chromedriver.zip
+  - unzip /tmp/chromedriver/chromedriver.zip -d /tmp/chromedriver
+  - chmod 700 /tmp/chromedriver/chromedriver
+#  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
 install:
-  - pip install -r test/requirement.txt
+  - pip install -r requirement.txt
 
-# command to run tests
+before_script:
+  - export PATH=$PATH:/tmp/chromedriver
+  - google-chrome-stable --version
+  - chromedriver --version
+
 script:
-#  - python main.py
-#  - cd test
-#  - python test_url.py
-#  - pytest  --cov=./  --driver Chrome --driver-path ./chromedriver/chromedriver_linux
-  - pytest  --cov=./
+#  - pytest  --cov=./
+  - pytest  --cov=./  --driver Chrome --driver-path  /tmp/chromedriver/chromedriver
 
 
 after_success:
@@ -22,4 +35,3 @@ after_success:
 
 # private repo
 # - bash <(curl -s https://codecov.io/bash) -t your-repository-upload-token
-
