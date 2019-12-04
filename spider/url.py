@@ -60,21 +60,13 @@ def get_chinese_city_gbk(en):
 def get_city():
     city = None
     # 允许用户通过命令直接指定
-    if len(sys.argv) < 2:
-        print("Wait for your choice.")
-        # 让用户选择爬取哪个城市的二手房小区价格数据
-        prompt = create_prompt_city_text()
+    print("Wait for your choice.")
+    # 让用户选择爬取哪个城市的二手房小区价格数据
+    prompt = create_prompt_city_text()
 
-        city = input(prompt)
-
-    elif len(sys.argv) == 2:
-        city = str(sys.argv[1])
-        print("City is: {0}".format(city))
-    else:
-        print("At most accept one parameter.")
-        exit(1)
-
+    city = input(prompt)
     chinese_city = get_chinese_city(city)
+
     if chinese_city is not None:
         message = 'OK, start to crawl ' + get_chinese_city(city)
         print(message)
