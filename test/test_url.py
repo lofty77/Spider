@@ -10,12 +10,15 @@ from spider import url
 @pytest.fixture(scope="function")
 def do_input():
 
-    yield
+    def _do_input(data):
+        return data
+    yield _do_input
+
     url.input = input
 
 
 def test_get_city(do_input):
-    url.input = lambda x: "tj"
+    url.input = lambda x: do_input("tj")
     output = url.get_city()
     assert_equal(output, "tj")
 
@@ -35,7 +38,7 @@ def test_get_chinese_city_gbk():
 
 def test_get_date(do_input):
     # Override the Python built-in input method
-    url.input = lambda x: "2019-01-01"
+    url.input = lambda x: do_input("2019-01-01")
     output = url.get_date("start")
     assert_equal(output, "2019-01-01")
 
