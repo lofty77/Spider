@@ -7,16 +7,14 @@ sys.path.append('../')
 from spider import url
 
 
-def setup_function():
-    pass
+@pytest.fixture(scope="function")
+def do_input():
 
-
-def teardown_function():
-   # This method is being called after each test case, and it will revert input back to original function
+    yield
     url.input = input
 
 
-def test_get_city():
+def test_get_city(do_input):
     url.input = lambda x: "tj"
     output = url.get_city()
     assert_equal(output, "tj")
@@ -35,7 +33,7 @@ def test_get_chinese_city_gbk():
     assert_equal(city_chinese_gbk, "%CC%EC%BD%F2")
 
 
-def test_get_date():
+def test_get_date(do_input):
     # Override the Python built-in input method
     url.input = lambda x: "2019-01-01"
     output = url.get_date("start")
