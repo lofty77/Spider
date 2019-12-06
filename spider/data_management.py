@@ -58,6 +58,8 @@ class DataManagement:
         data = data[4:index]
         self.data[attribute] = data
 
+        return data
+
     def __process_attri_area(self, attribute, data):
         left = data.find("建筑面积")
         if(left != -1):
