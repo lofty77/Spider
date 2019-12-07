@@ -202,7 +202,6 @@ class SfSpider:
        # unit-name
         unitName = self.driver.find_element_by_class_name("unit-name").text
         self.data.set_data(Data.unitName.name, unitName)
-        print(unitName)
 
         # TODO: degfine new field
 
