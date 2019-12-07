@@ -199,6 +199,11 @@ class SfSpider:
 
         self.data.set_data(Data.times.name, textContent)
 
+       # unit-name
+        unitName = self.driver.find_element_by_class_name("unit-name").text
+        self.data.set_data(Data.unitName.name, unitName)
+        print(unitName)
+
         # TODO: degfine new field
 
        # 变卖公告，竞买公告

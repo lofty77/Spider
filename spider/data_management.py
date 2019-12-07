@@ -26,6 +26,7 @@ class Data(Enum):
     bidCount = "举牌次数"
     delayCount = "举牌延迟次数"
     applyCount = "报名人数"
+    unitName = "法院名字"
     itemUrl = "网页链接"
 
     # debug
