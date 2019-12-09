@@ -70,6 +70,8 @@ class DataManagement:
         else:
             self.data[attribute] = 0
 
+        return self.data[attribute]
+
     def __process_attri_times(self, attribute, data):
         keyword_postion = data.find("卖")
         if(keyword_postion != -1):
@@ -78,6 +80,8 @@ class DataManagement:
             data = "no content"
 
         self.data[attribute] = data
+
+        return data
 
     def __process_attri_common(self, attribute, data):
         self.data[attribute] = data
