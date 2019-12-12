@@ -33,7 +33,13 @@ if __name__ == '__main__':
 
   print(sys.path)
 
-  crawl_link = generate_crawl_link()
+  if (G_Debug):
+    crawl_link = ("https://sf.taobao.com/item_list.htm?category=50025969&auction_source=0"
+                  "&province=%CC%EC%BD%F2&sorder=2&st_param=-1&"
+                  "auction_start_from=2019-07-21&auction_start_to=2019-10-21&spm=a213w.3064813.9001.2")
+
+  else:
+    crawl_link = generate_crawl_link()
 
   start = datetime.datetime.now()
   print("start : {0}".format(start))

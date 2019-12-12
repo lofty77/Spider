@@ -37,12 +37,45 @@ class TestSfSpider:
         self.spider = SfSpider(
             debug=True, debug_pages=2, debug_items=2, head_less=True, url=url, file_name='demo')
 
+        print(self.spider._SfSpider__open_web().title)
+
+        self.item = {
+            'id': 604063958339,
+            'mnNotice': False,
+            'credit': False,
+            'itemUrl': '//sf-item.taobao.com/sf_item/604063958339.htm',
+            'status': 'failure',
+            'title': '天津滨海新区塘沽德景花园1-2-101房屋',
+            'picUrl': '//img.alicdn.com/bao/uploaded/i2/TB1_GArgVY7gK0jSZKzqTWikpXa',
+            'initialPrice': 1640000.0,
+            'currentPrice': 1640000.0,
+            'consultPrice': 2282000.0,
+            'marketPrice': 0,
+            'sellOff': True,
+            'start': 1570759200000,
+            'end': 1575943200000,
+            'timeToStart': -5379580303,
+            'timeToEnd': -195580303,
+            'viewerCount': 7110,
+            'bidCount': 0,
+            'delayCount': 0,
+            'applyCount': 0,
+            'catNames': '',
+            'collateralCatName': '',
+            'xmppVersion': '1',
+            'buyRestrictions': 0,
+            'supportLoans': 0,
+            'supportOrgLoan': 0
+        }
+
     def teardown_class(self):
         pass
 
-    def test_open_web(self):
+    def test_item_crawling(self):
 
-        assert '拍卖' in self.spider._SfSpider__open_web().title
+        status = self.spider._SfSpider__do_item_crawling(1, 0, self.item)
+
+        assert status == True
 
 
 if __name__ == '__main__':

@@ -166,34 +166,36 @@ class SfSpider:
 
             start = datetime.datetime.now()
 
-            self.data.set_data(Data.id.name, item_data[Data.id.name])
-            self.data.set_data(Data.status.name, item_data[Data.status.name])
-            self.data.set_data(Data.start.name, item_data[Data.start.name])
-            self.data.set_data(Data.end.name, item_data[Data.end.name])
-            self.data.set_data(Data.title.name, item_data[Data.title.name])
-            self.data.set_data(Data.consultPrice.name,
-                               item_data[Data.consultPrice.name])
-            self.data.set_data(Data.marketPrice.name,
-                               item_data[Data.marketPrice.name])
-            self.data.set_data(Data.currentPrice.name,
-                               item_data[Data.currentPrice.name])
-            self.data.set_data(Data.bidCount.name,
-                               item_data[Data.bidCount.name])
-            self.data.set_data(Data.delayCount.name,
-                               item_data[Data.delayCount.name])
-            self.data.set_data(Data.applyCount.name,
-                               item_data[Data.applyCount.name])
-            self.data.set_data(Data.itemUrl.name, item_data[Data.itemUrl.name])
-            self.data.set_data(Data.supportLoans.name,
-                               item_data[Data.supportLoans.name])
-            self.data.set_data(Data.supportOrgLoan.name,
-                               item_data[Data.supportOrgLoan.name])
-
-            self.__do_item_crawling(page, item)
+            self.__do_item_crawling(page, item, item_data)
 
             log(page, item, item_data["status"], start)
 
-    def __do_item_crawling(self, page_id, item_id):
+    def __do_item_crawling(self, page_id, item_id, item_data):
+
+        #print(item_data)
+
+        self.data.set_data(Data.id.name, item_data[Data.id.name])
+        self.data.set_data(Data.status.name, item_data[Data.status.name])
+        self.data.set_data(Data.start.name, item_data[Data.start.name])
+        self.data.set_data(Data.end.name, item_data[Data.end.name])
+        self.data.set_data(Data.title.name, item_data[Data.title.name])
+        self.data.set_data(Data.consultPrice.name,
+                           item_data[Data.consultPrice.name])
+        self.data.set_data(Data.marketPrice.name,
+                           item_data[Data.marketPrice.name])
+        self.data.set_data(Data.currentPrice.name,
+                           item_data[Data.currentPrice.name])
+        self.data.set_data(Data.bidCount.name,
+                           item_data[Data.bidCount.name])
+        self.data.set_data(Data.delayCount.name,
+                           item_data[Data.delayCount.name])
+        self.data.set_data(Data.applyCount.name,
+                           item_data[Data.applyCount.name])
+        self.data.set_data(Data.itemUrl.name, item_data[Data.itemUrl.name])
+        self.data.set_data(Data.supportLoans.name,
+                           item_data[Data.supportLoans.name])
+        self.data.set_data(Data.supportOrgLoan.name,
+                           item_data[Data.supportOrgLoan.name])
 
         self.__wait_and_click("CSS_SELECTOR", "#pai-item-" +
                               str(self.data.get_data(Data.id.name)), 1)
@@ -252,6 +254,8 @@ class SfSpider:
         self.data.write_file()
         self.driver.close()
         self.driver.switch_to.window(handles[0])
+
+        return True
 
 
 if __name__ == '__main__':
