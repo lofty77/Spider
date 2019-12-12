@@ -4,6 +4,11 @@ import datetime
 import platform
 import os.path as osp
 
+import sys
+
+sys.path.append('../')
+
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,7 +16,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException
 
-from data_management import DataManagement, Data
+from spider.data_management import DataManagement, Data
 
 
 def log(page_id, item_id, status, start):
@@ -27,40 +32,50 @@ class SfSpider:
         self.debug = debug
         self.debug_pages = debug_pages
         self.debug_items = debug_items
+        self.head_less = head_less
         self.url = url
         self.refresh_count = 0
 
         self.data = DataManagement(file_name)
 
-        executable = ''
+        self.executable = ''
 
         if platform.system() == 'Windows':
             print('Detected OS : Windows')
-            executable = '../chromedriver/chromedriver_win.exe'
+            self.executable = '../chromedriver/chromedriver_win.exe'
         elif platform.system() == 'Linux':
             print('Detected OS : Linux')
-            executable = '../chromedriver/chromedriver_linux'
+            self.executable = '../chromedriver/chromedriver_linux'
         elif platform.system() == 'Darwin':
             print('Detected OS : Mac')
-            executable = '../chromedriver/chromedriver_mac'
+            self.executable = '../chromedriver/chromedriver_mac'
         else:
             raise OSError('Unknown OS Type')
 
-        if not osp.exists(executable):
+        if not osp.exists(self.executable):
             raise FileNotFoundError(
-                'Chromedriver file should be placed at {}'.format(executable))
+                'Chromedriver file should be placed at {}'.format(self.executable))
 
-        if(head_less):
+    def __open_web(self):
+
+        if(self.head_less):
             # set headless
             chrome_options = Options()
             chrome_options.add_argument('--headless')
             self.driver = webdriver.Chrome(
-                options=chrome_options, executable_path=executable)
+                options=chrome_options, executable_path=self.executable)
         else:
-            self.driver = webdriver.Chrome(executable_path=executable)
+            self.driver = webdriver.Chrome(executable_path=self.executable)
 
         # Setup wait for later
         self.wait = WebDriverWait(self.driver, 10)
+
+        #
+        self.driver.get(self.url)
+
+        assert len(self.driver.window_handles) == 1
+
+        return self.driver
 
     def __wait_until(self, mode, value):
         try:
@@ -114,9 +129,7 @@ class SfSpider:
 
     def do_crawling(self):
 
-        self.driver.get(self.url)
-
-        assert len(self.driver.window_handles) == 1
+        self.__open_web()
 
         self.wait.until(EC.presence_of_element_located(
             (By.CLASS_NAME, "page-total")))
@@ -190,7 +203,7 @@ class SfSpider:
         handles = self.driver.window_handles
         self.driver.switch_to.window(handles[1])
 
-       # bid times
+        # bid times
         if self.__wait_until("XPATH", "/html[1]/body[1]/div[3]/div[4]/div[1]/div[1]/h1[1]"):
             textContent = self.driver.find_element_by_xpath(
                 "/html[1]/body[1]/div[3]/div[4]/div[1]/div[1]/h1[1]").get_attribute('textContent')
@@ -199,13 +212,13 @@ class SfSpider:
 
         self.data.set_data(Data.times.name, textContent)
 
-       # unit-name
+        # unit-name
         unitName = self.driver.find_element_by_class_name("unit-name").text
         self.data.set_data(Data.unitName.name, unitName)
 
         # TODO: degfine new field
 
-       # 变卖公告，竞买公告
+        # 变卖公告，竞买公告
         self.__wait_and_click(
             "CSS_SELECTOR", "#J_DetailTabMenu > li.current.first > a", 0.5)
 
