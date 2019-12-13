@@ -74,6 +74,8 @@ class TestSfSpider:
         self.spider = SfSpider(
             debug=True, debug_pages=2, debug_items=2, head_less=True, url=url, file_name='demo')
 
+       # self.spider.executable = "/tmp/chromedriver/chromedriver"
+
         driver = self.spider._SfSpider__open_web()
 
         print("web title:" + driver.title)
@@ -87,3 +89,4 @@ class TestSfSpider:
 
 if __name__ == '__main__':
     pytest.main(["-s", "test_sf_spider.py"])
+
