@@ -30,14 +30,12 @@ url = ("https://sf.taobao.com/item_list.htm?category=50025969&auction_source=0"
        "&province=%CC%EC%BD%F2&sorder=2&st_param=-1&"
        "auction_start_from=2019-07-21&auction_start_to=2019-10-21&spm=a213w.3064813.9001.2")
 
+url_baidu = "https://www.baidu.com"
+
 
 class TestSfSpider:
 
     def setup_class(self):
-        self.spider = SfSpider(
-            debug=True, debug_pages=2, debug_items=2, head_less=True, url=url, file_name='demo')
-
-        print(self.spider._SfSpider__open_web())
 
         self.item = {
             'id': 604063958339,
@@ -72,6 +70,15 @@ class TestSfSpider:
         pass
 
     def test_item_crawling(self):
+
+        self.spider = SfSpider(
+            debug=True, debug_pages=2, debug_items=2, head_less=True, url=url, file_name='demo')
+
+        driver = self.spider._SfSpider__open_web()
+
+        print("web title:" + driver.title)
+
+        assert "拍卖" in driver.title
 
         status = self.spider._SfSpider__do_item_crawling(1, 0, self.item)
 

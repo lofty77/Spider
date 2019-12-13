@@ -75,7 +75,7 @@ class SfSpider:
 
         assert len(self.driver.window_handles) == 1
 
-        return self.driver.title
+        return self.driver
 
     def __wait_until(self, mode, value):
         try:
