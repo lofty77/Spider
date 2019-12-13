@@ -75,7 +75,7 @@ class SfSpider:
 
         assert len(self.driver.window_handles) == 1
 
-        return self.driver
+        return self.driver.title
 
     def __wait_until(self, mode, value):
         try:
@@ -172,7 +172,7 @@ class SfSpider:
 
     def __do_item_crawling(self, page_id, item_id, item_data):
 
-        #print(item_data)
+        # print(item_data)
 
         self.data.set_data(Data.id.name, item_data[Data.id.name])
         self.data.set_data(Data.status.name, item_data[Data.status.name])

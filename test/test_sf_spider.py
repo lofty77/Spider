@@ -37,7 +37,7 @@ class TestSfSpider:
         self.spider = SfSpider(
             debug=True, debug_pages=2, debug_items=2, head_less=True, url=url, file_name='demo')
 
-        print(self.spider._SfSpider__open_web().title)
+        print(self.spider._SfSpider__open_web())
 
         self.item = {
             'id': 604063958339,
