@@ -2,4 +2,4 @@ http://chromedriver.chromium.org/downloads
 
 linux : http://chromedriver.storage.googleapis.com/index.html?path=78.0.3904.105/
 
-Mac : https://chromedriver.storage.googleapis.com/index.html?path=79.0.3945.36/
+Mac : https://chromedriver.storage.googleapis.com/index.html?path=81.0.4044.138/
